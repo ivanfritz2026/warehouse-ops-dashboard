@@ -154,6 +154,7 @@ def top_nav():
         ("🏆 Performers",  "3_Performers"),
         ("📊 Hourly Rate", "4_Hourly_Rate"),
         ("📋 Dept Summary","5_Dept_Summary"),
+        ("💰 Finance",      "6_Finance"),
     ]
     cols = st.columns(len(pages))
     for col, (label, page_name) in zip(cols, pages):
