@@ -145,7 +145,14 @@ if not mh_file:
     st.warning("No Man Hours data found. Upload on Man Hours page first.")
     st.stop()
 
-df = pd.read_excel(mh_file, header=9, engine="openpyxl")
+# Auto-detect the header row (look for 'Cust-Oracle Username')
+df_raw = pd.read_excel(mh_file, header=None, engine="openpyxl")
+header_row = 9  # fallback
+for i, row in df_raw.iterrows():
+    if 'Cust-Oracle Username' in [str(v) for v in row.values]:
+        header_row = i
+        break
+df = pd.read_excel(mh_file, header=header_row, engine="openpyxl")
 df = df.dropna(subset=["Cust-Oracle Username"])
 
 in_cols = [c for c in df.columns if str(c) == "In" or str(c).startswith("In.")]
