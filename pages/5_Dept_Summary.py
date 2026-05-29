@@ -41,7 +41,40 @@ def get_active_dt_dir():
 
 active_dt_dir, active_dt_date = get_active_dt_dir()
 
+
+def show_header_logo():
+    import base64
+    from pathlib import Path as _Path
+
+    logo_path = _Path(__file__).parent.parent / "static" / "logo.png"
+    if logo_path.exists():
+        with open(logo_path, "rb") as f:
+            logo_b64 = base64.b64encode(f.read()).decode()
+
+        st.markdown(f"""
+        <style>
+        [data-testid="stHeader"] {{
+            background: linear-gradient(90deg, #1565C0 0%, #2196F3 100%);
+            padding: 0.5rem 1rem;
+        }}
+        .header-logo {{
+            position: fixed;
+            top: 0.5rem;
+            right: 1rem;
+            height: 80px;
+            z-index: 999;
+            background: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+        }}
+        </style>
+        <img src="data:image/png;base64,{logo_b64}" class="header-logo">
+        """, unsafe_allow_html=True)
+
+
 st.set_page_config(page_title="Dept Summary – Warehouse Ops", page_icon="📋", layout="wide")
+show_header_logo()
+
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
