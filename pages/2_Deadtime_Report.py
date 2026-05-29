@@ -60,41 +60,41 @@ SNAP_FILE = SNAP_DIR / f"{TODAY}_final.csv"
 
 def show_header_logo():
     import base64
-    from pathlib import Path as _Path
-
-    logo_path = _Path(__file__).parent.parent / "static" / "logo.png"
+    from pathlib import Path
+    logo_path = Path(__file__).parent / "static" / "logo.png"
+    # For pages subfolder, go up one level
+    if not logo_path.exists():
+        logo_path = Path(__file__).parent.parent / "static" / "logo.png"
     if logo_path.exists():
         with open(logo_path, "rb") as f:
             logo_b64 = base64.b64encode(f.read()).decode()
-
         st.markdown(f"""
         <style>
         [data-testid="stHeader"] {{
             background: linear-gradient(90deg, #1565C0 0%, #2196F3 100%);
-            padding: 0.5rem 1rem;
         }}
-        .header-logo {{
+        .logo-left {{
             position: fixed;
-            top: 0.5rem;
-            right: 1rem;
-            height: 80px;
-            z-index: 999;
-            background: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 8px;
+            top: 4px;
+            left: 4rem;
+            height: 52px;
+            z-index: 9999;
+            border-radius: 6px;
+            padding: 2px 8px;
+            background: transparent;
         }}
         </style>
-        <img src="data:image/png;base64,{logo_b64}" class="header-logo">
+        <img src="data:image/png;base64,{logo_b64}" class="logo-left">
         """, unsafe_allow_html=True)
 
 
-st.set_page_config(page_title="Deadtime Report – Warehouse Ops", page_icon="⏱️", layout="wide")
+st.set_page_config(page_title="Deadtime – Takealot Warehouse Ops", page_icon="⏱️", layout="wide")
 show_header_logo()
 
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.title("🏭 Warehouse Ops")
+    st.title("🏭 Takealot Ops")
     st.caption(f"📅 {date.today().strftime('%A, %d %B %Y')}")
     st.divider()
 
