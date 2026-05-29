@@ -139,7 +139,14 @@ def load_manhours(xlsx_path: Path) -> pd.DataFrame:
     Parse Auto Man Hours xlsx (header at row index 9).
     Returns a cleaned DataFrame with employee info + man hrs.
     """
-    df = pd.read_excel(xlsx_path, header=9, engine="openpyxl")
+    # Auto-detect the header row (look for 'Cust-Oracle Username')
+    df_raw = pd.read_excel(xlsx_path, header=None, engine="openpyxl")
+    header_row = 9  # fallback
+    for i, row in df_raw.iterrows():
+        if 'Cust-Oracle Username' in [str(v) for v in row.values]:
+            header_row = i
+            break
+    df = pd.read_excel(xlsx_path, header=header_row, engine="openpyxl")
     df.columns = df.columns.str.strip()
 
     keep_meta = [
